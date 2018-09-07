@@ -15,7 +15,7 @@ import java.util.Date;
 
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/user/")
 public class UserController {
 
     @Autowired
@@ -24,40 +24,7 @@ public class UserController {
     @Autowired
     private TaskService taskService;
 
-
-    @RequestMapping
-    public String index() {
-        return "redirect:/login";
-    }
-
-    @RequestMapping("login")
-    public String login(ModelMap model, HttpServletRequest request) {
-        if (request.getParameterMap().containsKey("error"))
-            model.addAttribute("error", true);
-
-        return "login";
-    }
-
-    @RequestMapping("registration")
-    public String showRegistration() {
-        return "registration";
-    }
-
-
-    @RequestMapping(value = "authentication", method = RequestMethod.POST)
-    public String authenticationUser(@RequestParam("userName") String username,
-                                     @RequestParam("userPassword") String userPassword) {
-
-        User user = userService.findUserByNameAndPassword(username, userPassword);
-        if (user == null) {
-            return "redirect:/login?error";
-
-        } else
-            return "redirect:/user/" + username;
-    }
-
-
-    @RequestMapping("user/create")
+    @RequestMapping("create")
     public String addNewUser(@ModelAttribute("user")User user, RedirectAttributes redirectAttributes) {
 
         if (user == null) {
@@ -70,14 +37,14 @@ public class UserController {
         return "redirect:/user/" + user.getUserName();
     }
 
-    @RequestMapping("user/{userName}")
+    @RequestMapping("{userName}")
     public String getUserPage(@PathVariable("userName") String userName, ModelMap model) {
         model.addAttribute("taskList", userService.findByName(userName).getTaskList());
         model.addAttribute("userName", userName);
         return "user";
     }
 
-    @RequestMapping("user/{userName}/add")
+    @RequestMapping("add/{userName}")
     public String addTaskToUser(@RequestParam("description")String description, @PathVariable("userName") String userName) {
 
         User user = userService.findByName(userName);
@@ -88,7 +55,7 @@ public class UserController {
         return "redirect:/user/" + userName;
     }
 
-    @RequestMapping(value = "user/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
     public String delTaskToUser(@PathVariable("id") Long id) {
         Task task = taskService.findById(id);
         User user = task.getUser();
@@ -97,7 +64,7 @@ public class UserController {
         return "redirect:/user/" + user.getUserName();
     }
 
-    @RequestMapping(value = "user/state/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "state/{id}", method = RequestMethod.GET)
     public String stateTask(@PathVariable("id") Long id) {
         Task task = taskService.findById(id);
         User user = task.getUser();
@@ -109,7 +76,7 @@ public class UserController {
         return "redirect:/user/" + user.getUserName();
     }
 
-    @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
     public String editTask(@PathVariable("id") Long id, @RequestParam("description")String description) {
         Task task = taskService.findById(id);
         User user = task.getUser();

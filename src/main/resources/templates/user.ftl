@@ -27,7 +27,7 @@
     </#list>
     </ul>
 
-        <form id="todo-form" action="/user/${userName}/add" method="post">
+        <form id="todo-form" action="/user/add/${userName}" method="post">
             <input id="add-input"  name="description"  type="text">
             <button id="add-button" type="submit">Add</button>
         </form>
