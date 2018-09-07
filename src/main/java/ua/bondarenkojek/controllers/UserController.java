@@ -24,18 +24,7 @@ public class UserController {
     @Autowired
     private TaskService taskService;
 
-    @RequestMapping("create")
-    public String addNewUser(@ModelAttribute("user")User user, RedirectAttributes redirectAttributes) {
 
-        if (user == null) {
-            return "redirect:/registration";
-        } else
-            if (userService.findByName(user.getUserName())!=null) {
-                return "redirect:/registration";
-            }
-            userService.save(user);
-        return "redirect:/user/" + user.getUserName();
-    }
 
     @RequestMapping("{userName}")
     public String getUserPage(@PathVariable("userName") String userName, ModelMap model) {
@@ -45,7 +34,7 @@ public class UserController {
     }
 
     @RequestMapping("add/{userName}")
-    public String addTaskToUser(@RequestParam("description")String description, @PathVariable("userName") String userName) {
+    public String addTask(@RequestParam("description")String description, @PathVariable("userName") String userName) {
 
         User user = userService.findByName(userName);
         Task task = new Task(description);
@@ -56,7 +45,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
-    public String delTaskToUser(@PathVariable("id") Long id) {
+    public String deleteTask(@PathVariable("id") Long id) {
         Task task = taskService.findById(id);
         User user = task.getUser();
         user.removeTask(task);

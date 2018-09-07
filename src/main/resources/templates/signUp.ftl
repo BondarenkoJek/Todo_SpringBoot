@@ -1,12 +1,19 @@
 <html>
 <head>
     <title>Registration</title>
-    <link rel="stylesheet" href="/styles/reg.css"/>
+    <link rel="stylesheet" href="/styles/signUp.css"/>
 </head>
 <body>
 
+
+
 <form class="form" action="/user/create" method="post">
     <h2>Create account</h2>
+
+<#if error??>
+    <div class="alert-danger">login already exist</div>
+</#if>
+
     <label for="userName">Login</label>
     <input id="userName" name="userName" type="text"/>
 

@@ -30,6 +30,12 @@ public class User {
     @NonNull
     private String email;
 
+    @Enumerated(value = EnumType.STRING)
+    private UserRole userRole;
+
+    @Enumerated(value = EnumType.STRING)
+    private UserState userState;
+
 
 
     @OneToMany(mappedBy = "user" ,cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)

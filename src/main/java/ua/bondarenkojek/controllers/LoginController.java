@@ -12,18 +12,18 @@ import ua.bondarenkojek.services.UserService;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/")
+
 public class LoginController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping
+    @RequestMapping("/")
     public String index() {
         return "redirect:/login";
     }
 
-    @RequestMapping("login")
+    @RequestMapping("/login")
     public String login(ModelMap model, HttpServletRequest request) {
         if (request.getParameterMap().containsKey("error"))
             model.addAttribute("error", true);
@@ -31,14 +31,8 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping("registration")
-    public String showRegistration() {
-        return "registration";
-    }
-
-
-    @RequestMapping(value = "authentication", method = RequestMethod.POST)
-    public String authenticationUser(@RequestParam("userName") String username,
+    @RequestMapping(value = "/authentication", method = RequestMethod.POST)
+    public String authentication(@RequestParam("userName") String username,
                                      @RequestParam("userPassword") String userPassword) {
 
         User user = userService.findUserByNameAndPassword(username, userPassword);

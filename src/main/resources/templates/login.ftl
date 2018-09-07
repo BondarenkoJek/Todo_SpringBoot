@@ -24,7 +24,7 @@
 
     <input value="Sign in" type="submit"/>
 
-    <div class="div_a"><a href="/registration">Create your account</a></div>
+    <div class="div_a"><a href="/signUp">Create your account</a></div>
 </form>
 
 </body>
