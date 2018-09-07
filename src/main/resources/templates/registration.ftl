@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<form class="form" action="/create" method="post">
+<form class="form" action="/user/create" method="post">
     <h2>Create account</h2>
     <label for="userName">Login</label>
     <input id="userName" name="userName" type="text"/>
@@ -19,7 +19,7 @@
 
     <input value="Create your account" type="submit">
 
-    <div class="div_a">Already have an account?<a href="/">Sign in</a></div>
+    <div class="div_a">Already have an account?<a href="/login/">Sign in</a></div>
 </form>
 
 </body>

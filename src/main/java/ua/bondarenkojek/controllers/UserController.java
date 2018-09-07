@@ -10,6 +10,7 @@ import ua.bondarenkojek.models.User;
 import ua.bondarenkojek.services.TaskService;
 import ua.bondarenkojek.services.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 
@@ -23,8 +24,17 @@ public class UserController {
     @Autowired
     private TaskService taskService;
 
+
     @RequestMapping
-    public String login() {
+    public String index() {
+        return "redirect:/login";
+    }
+
+    @RequestMapping("login")
+    public String login(ModelMap model, HttpServletRequest request) {
+        if (request.getParameterMap().containsKey("error"))
+            model.addAttribute("error", true);
+
         return "login";
     }
 
@@ -34,19 +44,20 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "authentication", method = RequestMethod.POST)
     public String authenticationUser(@RequestParam("userName") String username,
                                      @RequestParam("userPassword") String userPassword) {
 
         User user = userService.findUserByNameAndPassword(username, userPassword);
         if (user == null) {
-            return "redirect:/";
+            return "redirect:/login?error";
+
         } else
-            return "redirect:/" + username;
+            return "redirect:/user/" + username;
     }
 
 
-    @RequestMapping("create")
+    @RequestMapping("user/create")
     public String addNewUser(@ModelAttribute("user")User user, RedirectAttributes redirectAttributes) {
 
         if (user == null) {
@@ -56,17 +67,17 @@ public class UserController {
                 return "redirect:/registration";
             }
             userService.save(user);
-        return "redirect:/" + user.getUserName();
+        return "redirect:/user/" + user.getUserName();
     }
 
-    @RequestMapping("{userName}")
+    @RequestMapping("user/{userName}")
     public String getUserPage(@PathVariable("userName") String userName, ModelMap model) {
         model.addAttribute("taskList", userService.findByName(userName).getTaskList());
         model.addAttribute("userName", userName);
         return "user";
     }
 
-    @RequestMapping("{userName}/add")
+    @RequestMapping("user/{userName}/add")
     public String addTaskToUser(@RequestParam("description")String description, @PathVariable("userName") String userName) {
 
         User user = userService.findByName(userName);
@@ -74,19 +85,19 @@ public class UserController {
         task.setDate(new Date());
         user.addTask(task);
         userService.save(user);
-        return "redirect:/" + userName;
+        return "redirect:/user/" + userName;
     }
 
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "user/delete/{id}", method = RequestMethod.POST)
     public String delTaskToUser(@PathVariable("id") Long id) {
         Task task = taskService.findById(id);
         User user = task.getUser();
         user.removeTask(task);
         userService.save(user);
-        return "redirect:/" + user.getUserName();
+        return "redirect:/user/" + user.getUserName();
     }
 
-    @RequestMapping(value = "state/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "user/state/{id}", method = RequestMethod.GET)
     public String stateTask(@PathVariable("id") Long id) {
         Task task = taskService.findById(id);
         User user = task.getUser();
@@ -95,10 +106,10 @@ public class UserController {
         task.setState(task.getState()?false:true);
 
         taskService.save(task);
-        return "redirect:/" + user.getUserName();
+        return "redirect:/user/" + user.getUserName();
     }
 
-    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
     public String editTask(@PathVariable("id") Long id, @RequestParam("description")String description) {
         Task task = taskService.findById(id);
         User user = task.getUser();
@@ -106,7 +117,7 @@ public class UserController {
         task.setDescription(description);
 
         taskService.save(task);
-        return "redirect:/" + user.getUserName();
+        return "redirect:/user/" + user.getUserName();
     }
 
 

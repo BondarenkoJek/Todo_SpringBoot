@@ -27,7 +27,7 @@
     </#list>
     </ul>
 
-        <form id="todo-form" action="/${userName}/add" method="post">
+        <form id="todo-form" action="/user/${userName}/add" method="post">
             <input id="add-input"  name="description"  type="text">
             <button id="add-button" type="submit">Add</button>
         </form>
@@ -46,7 +46,7 @@
         }
 
         function deleteTodoItem() {
-            request.open('Post', '/delete/' + this.value);
+            request.open('Post', '/user/delete/' + this.value);
             request.send();
 
             const listItem = this.parentNode;
@@ -57,7 +57,7 @@
             const listItem = this.parentNode;
             listItem.classList.toggle('completed');
 
-            request.open('Get', '/state/' + this.value);
+            request.open('Get', '/user/state/' + this.value);
             request.send();
 
         }
@@ -71,7 +71,7 @@
             if(isEditing) {
                 title.innerText = editInput.value;
                 this.innerText = 'Edit';
-                request.open('Get', '/edit/' + this.value + '?description=' + editInput.value);
+                request.open('Get', '/user/edit/' + this.value + '?description=' + editInput.value);
                 request.send();
 
             }else {

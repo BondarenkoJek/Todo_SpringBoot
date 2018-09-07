@@ -6,8 +6,14 @@
 </head>
 <body>
 
-<form class="form" action="/login" method="post">
+
+
+<form class="form" action="/authentication" method="post">
     <h2>Sign in</h2>
+
+<#if error??>
+    <div class="alert-danger">login or password entered incorrectly</div>
+</#if>
 
     <label for="userName">Your name</label>
     <input id="userName" name="userName" type="text"/>
