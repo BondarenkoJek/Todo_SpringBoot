@@ -26,14 +26,14 @@ public class UserController {
 
 
 
-    @RequestMapping("{userName}")
+    @GetMapping("{userName}")
     public String getUserPage(@PathVariable("userName") String userName, ModelMap model) {
         model.addAttribute("taskList", userService.findByName(userName).getTaskList());
         model.addAttribute("userName", userName);
         return "user";
     }
 
-    @RequestMapping("add/{userName}")
+    @GetMapping("add/{userName}")
     public String addTask(@RequestParam("description")String description, @PathVariable("userName") String userName) {
 
         User user = userService.findByName(userName);
@@ -44,8 +44,8 @@ public class UserController {
         return "redirect:/user/" + userName;
     }
 
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
-    public String deleteTask(@PathVariable("id") Long id) {
+    @GetMapping(value = "delete")
+    public String deleteTask(@RequestParam("id") Long id) {
         Task task = taskService.findById(id);
         User user = task.getUser();
         user.removeTask(task);
@@ -53,8 +53,8 @@ public class UserController {
         return "redirect:/user/" + user.getUserName();
     }
 
-    @RequestMapping(value = "state/{id}", method = RequestMethod.GET)
-    public String stateTask(@PathVariable("id") Long id) {
+    @GetMapping(value = "state")
+    public String stateTask(@RequestParam("id") Long id) {
         Task task = taskService.findById(id);
         User user = task.getUser();
 
@@ -65,7 +65,7 @@ public class UserController {
         return "redirect:/user/" + user.getUserName();
     }
 
-    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "edit/{id}")
     public String editTask(@PathVariable("id") Long id, @RequestParam("description")String description) {
         Task task = taskService.findById(id);
         User user = task.getUser();

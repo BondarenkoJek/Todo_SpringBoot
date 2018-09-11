@@ -8,7 +8,7 @@
 
 
 
-<form class="form" action="/authentication" method="post">
+<form class="form" action="/login" method="post">
     <h2>Sign in</h2>
 
 <#if error??>

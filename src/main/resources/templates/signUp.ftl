@@ -7,7 +7,7 @@
 
 
 
-<form class="form" action="/user/create" method="post">
+<form class="form" action="/signUp" method="post">
     <h2>Create account</h2>
 
 <#if error??>
