@@ -1,11 +1,9 @@
 package ua.bondarenkojek.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ua.bondarenkojek.models.User;
-import ua.bondarenkojek.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,12 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 
 public class LoginController {
 
-    @Autowired
-    private UserService userService;
-
     @GetMapping("/")
-    public String main() {
+    public String main(Authentication authentication) {
+        if (authentication==null)
         return "redirect:/login";
+        return "redirect:/user/" + authentication.getName();
     }
 
     @GetMapping("/login")
@@ -27,17 +24,5 @@ public class LoginController {
             model.addAttribute("error", true);
 
         return "login";
-    }
-
-    @PostMapping(value = "/login")
-    public String authentication(@RequestParam("userName") String username,
-                                 @RequestParam("userPassword") String userPassword) {
-
-        User user = userService.findUserByNameAndPassword(username, userPassword);
-        if (user == null) {
-            return "redirect:/login?error";
-
-        } else
-            return "redirect:/user/" + username;
     }
 }

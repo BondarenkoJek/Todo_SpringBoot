@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.bondarenkojek.models.Task;
 import ua.bondarenkojek.models.User;
 import ua.bondarenkojek.services.TaskService;
 import ua.bondarenkojek.services.UserService;
 
-import javax.servlet.http.HttpServletRequest;
+
 import java.util.Date;
 
 
@@ -54,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping(value = "state")
-    public String stateTask(@RequestParam("id") Long id) {
+    public String setStateTask(@RequestParam("id") Long id) {
         Task task = taskService.findById(id);
         User user = task.getUser();
 
@@ -65,8 +64,8 @@ public class UserController {
         return "redirect:/user/" + user.getUserName();
     }
 
-    @GetMapping(value = "edit/{id}")
-    public String editTask(@PathVariable("id") Long id, @RequestParam("description")String description) {
+    @GetMapping(value = "edit")
+    public String editTask(@RequestParam("id") Long id, @RequestParam("description")String description) {
         Task task = taskService.findById(id);
         User user = task.getUser();
 

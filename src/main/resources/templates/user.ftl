@@ -6,6 +6,10 @@
 
 </head>
 <body>
+<form action="/logout" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
     <main id="app">
         <header>
             <h1>Todo for ${userName}</h1>
@@ -71,7 +75,7 @@
             if(isEditing) {
                 title.innerText = editInput.value;
                 this.innerText = 'Edit';
-                request.open('Get', '/user/edit/' + this.value + '?description=' + editInput.value);
+                request.open('Get', '/user/edit?id=' + this.value + '&description=' + editInput.value);
                 request.send();
 
             }else {

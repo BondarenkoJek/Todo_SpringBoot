@@ -2,6 +2,7 @@ package ua.bondarenkojek.models;
 
 
 import lombok.*;
+import ua.bondarenkojek.forms.UserForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -49,4 +50,6 @@ public class User {
     public void removeTask(Task task) {
        getTaskList().remove(task);
     }
+
+    
 }

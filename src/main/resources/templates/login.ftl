@@ -14,13 +14,14 @@
 <#if error??>
     <div class="alert-danger">login or password entered incorrectly</div>
 </#if>
-
     <label for="userName">Your name</label>
     <input id="userName" name="userName" type="text"/>
 
     <label for="password">Password</label>
     <input id="password" name="userPassword" type="password"/>
 
+    <label for="remember-me">Remember me</label>
+    <input type="checkbox" id="remember-me" name="remember-me">
 
     <input value="Sign in" type="submit"/>
 
