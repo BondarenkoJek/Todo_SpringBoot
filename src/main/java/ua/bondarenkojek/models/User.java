@@ -2,7 +2,6 @@ package ua.bondarenkojek.models;
 
 
 import lombok.*;
-import ua.bondarenkojek.forms.UserForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;

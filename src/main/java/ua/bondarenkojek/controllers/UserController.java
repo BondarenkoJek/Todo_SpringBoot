@@ -3,19 +3,15 @@ package ua.bondarenkojek.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ua.bondarenkojek.models.Task;
 import ua.bondarenkojek.models.User;
 import ua.bondarenkojek.security.details.UserDetailsImpl;
 import ua.bondarenkojek.services.TaskService;
 import ua.bondarenkojek.services.UserService;
-import ua.bondarenkojek.transfer.UserDto;
 
 
 import java.util.Date;
-
-import static ua.bondarenkojek.transfer.UserDto.from;
 
 
 @Controller
@@ -36,16 +32,8 @@ public class UserController {
         UserDetailsImpl details = (UserDetailsImpl)authentication.getPrincipal();
         User user = details.getUser();
 
-        return "redirect:" + user.getUserName();
+        return "redirect:/" + user.getUserName();
     }
-
-    @GetMapping("{userName}")
-    public String getUserPage(@PathVariable("userName") String userName, ModelMap model) {
-        UserDto user = from(userService.findByName(userName));
-        model.addAttribute("user", user);
-        return "user";
-    }
-
 
     @GetMapping("add")
     public String addTask(@RequestParam("description")String description, Authentication authentication) {

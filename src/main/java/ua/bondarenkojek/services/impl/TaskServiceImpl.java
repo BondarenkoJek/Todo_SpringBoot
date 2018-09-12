@@ -2,11 +2,14 @@ package ua.bondarenkojek.services.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.bondarenkojek.models.Task;
 import ua.bondarenkojek.repository.TaskRepository;
 import ua.bondarenkojek.services.TaskService;
+
+import java.util.List;
 
 
 @Service
@@ -31,5 +34,10 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public void save(Task task) {
         taskRepository.save(task);
+    }
+
+    @Override
+    public List<Task> findAllByUserId(Long userId, Pageable pageable) {
+        return taskRepository.findAllByUser_Id(userId, pageable);
     }
 }

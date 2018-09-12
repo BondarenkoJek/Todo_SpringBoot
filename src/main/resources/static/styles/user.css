@@ -133,6 +133,7 @@ header h1 {
     background-color: #FAFAFA;
     border-top: 1px solid rgba(0,0,0,.1);
     padding: 10px;
+    clear:both;
 }
 
 #todo-form input {
@@ -147,6 +148,17 @@ header h1 {
 
 #todo-form button {
     margin-left: 10px;
+}
+
+
+
+.numberPage {
+    float: left;
+    padding-left: 40px;
+}
+
+.numberPages {
+    padding-bottom: 20px;
 }
 
 
