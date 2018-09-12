@@ -8,6 +8,7 @@
 
 
 <form class="form" action="/signUp" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <h2>Create account</h2>
 
 <#if error??>

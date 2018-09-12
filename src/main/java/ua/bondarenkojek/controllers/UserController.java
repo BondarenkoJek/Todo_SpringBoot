@@ -1,20 +1,25 @@
 package ua.bondarenkojek.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ua.bondarenkojek.models.Task;
 import ua.bondarenkojek.models.User;
+import ua.bondarenkojek.security.details.UserDetailsImpl;
 import ua.bondarenkojek.services.TaskService;
 import ua.bondarenkojek.services.UserService;
+import ua.bondarenkojek.transfer.UserDto;
 
 
 import java.util.Date;
 
+import static ua.bondarenkojek.transfer.UserDto.from;
+
 
 @Controller
-@RequestMapping("/user/")
+@RequestMapping("/")
 public class UserController {
 
     @Autowired
@@ -23,24 +28,38 @@ public class UserController {
     @Autowired
     private TaskService taskService;
 
+    @GetMapping
+    public String home(Authentication authentication) {
+        if (authentication==null)
+            return "redirect:/login";
 
+        UserDetailsImpl details = (UserDetailsImpl)authentication.getPrincipal();
+        User user = details.getUser();
+
+        return "redirect:" + user.getUserName();
+    }
 
     @GetMapping("{userName}")
     public String getUserPage(@PathVariable("userName") String userName, ModelMap model) {
-        model.addAttribute("taskList", userService.findByName(userName).getTaskList());
-        model.addAttribute("userName", userName);
+        UserDto user = from(userService.findByName(userName));
+        model.addAttribute("user", user);
         return "user";
     }
 
-    @GetMapping("add/{userName}")
-    public String addTask(@RequestParam("description")String description, @PathVariable("userName") String userName) {
+
+    @GetMapping("add")
+    public String addTask(@RequestParam("description")String description, Authentication authentication) {
+
+        UserDetailsImpl details = (UserDetailsImpl)authentication.getPrincipal();
+        String userName = details.getUser().getUserName();
+
 
         User user = userService.findByName(userName);
         Task task = new Task(description);
         task.setDate(new Date());
         user.addTask(task);
         userService.save(user);
-        return "redirect:/user/" + userName;
+        return "redirect:/" + userName;
     }
 
     @GetMapping(value = "delete")
@@ -49,7 +68,7 @@ public class UserController {
         User user = task.getUser();
         user.removeTask(task);
         userService.save(user);
-        return "redirect:/user/" + user.getUserName();
+        return "redirect:/" + user.getUserName();
     }
 
     @GetMapping(value = "state")
@@ -61,7 +80,7 @@ public class UserController {
         task.setState(task.getState()?false:true);
 
         taskService.save(task);
-        return "redirect:/user/" + user.getUserName();
+        return "redirect:/" + user.getUserName();
     }
 
     @GetMapping(value = "edit")
@@ -72,9 +91,6 @@ public class UserController {
         task.setDescription(description);
 
         taskService.save(task);
-        return "redirect:/user/" + user.getUserName();
+        return "redirect:/" + user.getUserName();
     }
-
-
-
 }

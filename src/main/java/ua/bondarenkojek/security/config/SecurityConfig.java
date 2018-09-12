@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,14 +25,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     DataSource dataSource;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    @Qualifier("userDetailsServiceImpl")
+    private UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/user/**").authenticated()
+                    .authorizeRequests()
+                    .antMatchers("/styles/**").permitAll()
                     .antMatchers("/signUp/**").permitAll()
+                    .antMatchers("/**").authenticated()
                 .and()
                     .formLogin()
                     .usernameParameter("userName")
@@ -41,10 +44,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     .rememberMe()
-                    .rememberMeParameter("remember-me")
+                    .rememberMeParameter("remember-me").userDetailsService(userDetailsService)
                     .tokenRepository(tokenRepository());
 
-        http.csrf().disable();
+//        http.csrf().disable();
     }
 
     @Bean

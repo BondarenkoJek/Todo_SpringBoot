@@ -9,6 +9,7 @@
 
 
 <form class="form" action="/login" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <h2>Sign in</h2>
 
 <#if error??>

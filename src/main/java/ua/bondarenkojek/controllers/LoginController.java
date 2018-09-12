@@ -11,15 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 
 public class LoginController {
 
-    @GetMapping("/")
-    public String main(Authentication authentication) {
-        if (authentication==null)
-        return "redirect:/login";
-        return "redirect:/user/" + authentication.getName();
-    }
+
+
 
     @GetMapping("/login")
-    public String getLoginPage(ModelMap model, HttpServletRequest request) {
+    public String getLoginPage(Authentication authentication, ModelMap model, HttpServletRequest request) {
+
+        if (authentication != null) {
+            return "redirect:/";
+        }
+
         if (request.getParameterMap().containsKey("error"))
             model.addAttribute("error", true);
 

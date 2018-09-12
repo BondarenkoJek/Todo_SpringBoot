@@ -7,15 +7,17 @@
 </head>
 <body>
 <form action="/logout" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
     <input type="submit" value="Sign Out"/>
 </form>
 
     <main id="app">
         <header>
-            <h1>Todo for ${userName}</h1>
+            <h1>Todo for ${user.userName}</h1>
         </header>
     <ul id="todo-list">
-    <#list taskList as task>
+    <#list user.taskList as task>
             <li class="todo-item <#if task.state>completed</#if>">
                 <input class="checkbox" type="checkbox" value="${task.id}" <#if task.state>checked</#if> >
 
@@ -31,7 +33,8 @@
     </#list>
     </ul>
 
-        <form id="todo-form" action="/user/add/${userName}" method="get">
+        <form id="todo-form" action="/add" method="get">
+            <input type="hidden" name="userName" v>
             <input id="add-input"  name="description"  type="text">
             <button id="add-button" type="submit">Add</button>
         </form>
@@ -50,7 +53,7 @@
         }
 
         function deleteTodoItem() {
-            request.open('Get', '/user/delete?id=' + this.value);
+            request.open('Get', '/delete?id=' + this.value);
             request.send();
 
             const listItem = this.parentNode;
@@ -61,7 +64,7 @@
             const listItem = this.parentNode;
             listItem.classList.toggle('completed');
 
-            request.open('Get', '/user/state?id=' + this.value);
+            request.open('Get', '/state?id=' + this.value);
             request.send();
 
         }
@@ -75,7 +78,7 @@
             if(isEditing) {
                 title.innerText = editInput.value;
                 this.innerText = 'Edit';
-                request.open('Get', '/user/edit?id=' + this.value + '&description=' + editInput.value);
+                request.open('Get', '/edit?id=' + this.value + '&description=' + editInput.value);
                 request.send();
 
             }else {
