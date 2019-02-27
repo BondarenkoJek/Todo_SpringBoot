@@ -8,15 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-
 public class LoginController {
-
-
-
 
     @GetMapping("/login")
     public String getLoginPage(Authentication authentication, ModelMap model, HttpServletRequest request) {
-
         if (authentication != null) {
             return "redirect:/";
         }

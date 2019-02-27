@@ -23,5 +23,4 @@ public class AuthenticationEventListener implements ApplicationListener<Abstract
                 "\t\tSuccess: " + authentication.isAuthenticated();
         System.out.println(auditMessage);
     }
-
 }

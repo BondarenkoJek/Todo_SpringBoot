@@ -5,8 +5,6 @@
 </head>
 <body>
 
-
-
 <form class="form" action="/signUp" method="post">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <h2>Create account</h2>
@@ -29,6 +27,5 @@
 
     <div class="div_a">Already have an account?<a href="/login/">Sign in</a></div>
 </form>
-
 </body>
 </html>

@@ -9,8 +9,6 @@ import ua.bondarenkojek.models.Task;
 
 import java.util.List;
 
-
-
 public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findAllByUser_Id(Long userId, Pageable pageable);
 }

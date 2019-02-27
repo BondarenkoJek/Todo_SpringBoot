@@ -4,13 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -32,8 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                     .authorizeRequests()
-                    .antMatchers("/styles/**").permitAll()
-                    .antMatchers("/signUp/**").permitAll()
+                    .antMatchers("/administrator").hasAuthority("ADMIN")
+                    .antMatchers("/styles/**", "/signUp/**").permitAll()
                     .antMatchers("/**").authenticated()
                 .and()
                     .formLogin()
@@ -46,8 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .rememberMe()
                     .rememberMeParameter("remember-me").userDetailsService(userDetailsService)
                     .tokenRepository(tokenRepository());
-
-//        http.csrf().disable();
     }
 
     @Bean
@@ -56,5 +51,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         tokenRepository.setDataSource(dataSource);
         return tokenRepository;
     }
-
 }

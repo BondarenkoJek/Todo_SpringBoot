@@ -1,11 +1,9 @@
 package ua.bondarenkojek.models;
 
-
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
-
 
 @Data
 @NoArgsConstructor
@@ -32,5 +30,4 @@ public class Task {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
-
 }

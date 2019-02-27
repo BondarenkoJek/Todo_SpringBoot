@@ -1,12 +1,9 @@
-
 <html>
 <head>
     <title>Sign In</title>
     <link rel="stylesheet" href="/styles/login.css"/>
 </head>
 <body>
-
-
 
 <form class="form" action="/login" method="post">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

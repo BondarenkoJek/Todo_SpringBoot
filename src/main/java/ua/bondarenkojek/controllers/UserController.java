@@ -10,9 +10,7 @@ import ua.bondarenkojek.security.details.UserDetailsImpl;
 import ua.bondarenkojek.services.TaskService;
 import ua.bondarenkojek.services.UserService;
 
-
 import java.util.Date;
-
 
 @Controller
 @RequestMapping("/")
@@ -37,10 +35,8 @@ public class UserController {
 
     @GetMapping("add")
     public String addTask(@RequestParam("description")String description, Authentication authentication) {
-
         UserDetailsImpl details = (UserDetailsImpl)authentication.getPrincipal();
         String userName = details.getUser().getUserName();
-
 
         User user = userService.findByName(userName);
         Task task = new Task(description);
@@ -63,7 +59,6 @@ public class UserController {
     public String setStateTask(@RequestParam("id") Long id) {
         Task task = taskService.findById(id);
         User user = task.getUser();
-
 
         task.setState(task.getState()?false:true);
 

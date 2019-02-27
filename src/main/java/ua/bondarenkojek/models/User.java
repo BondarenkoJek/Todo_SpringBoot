@@ -1,12 +1,10 @@
 package ua.bondarenkojek.models;
 
-
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Data
 @NoArgsConstructor
@@ -16,7 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,9 +33,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserState userState;
 
-
-
-    @OneToMany(mappedBy = "user" ,cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(mappedBy = "user" ,cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Task> taskList = new ArrayList<>();
 
     public void addTask(Task task) {
@@ -49,6 +44,4 @@ public class User {
     public void removeTask(Task task) {
        getTaskList().remove(task);
     }
-
-    
 }

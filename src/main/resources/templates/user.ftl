@@ -3,7 +3,6 @@
     <title>TodoList</title>
     <link rel="stylesheet" href="/styles/user.css">
 
-
 </head>
 <body>
 <form action="/logout" method="post">
@@ -42,7 +41,6 @@
 
                 </#list>
         </div>
-
 </#if>
 
         <div>
@@ -51,11 +49,8 @@
             <input id="add-input"  name="description"  type="text">
             <button id="add-button" type="submit">Add</button>
             </form>
-
         </div>
-
     </main>
-
 
     <script>
         function bindEvents(todoItem) {
@@ -104,7 +99,6 @@
             listItem.classList.toggle('editing');
         }
 
-
         const todoItems = document.querySelectorAll('.todo-item');
         const todoList = document.getElementById('todo-list');
         const request = new XMLHttpRequest();
@@ -115,7 +109,6 @@
 
         main();
     </script>
-
 </body>
 </html>
 

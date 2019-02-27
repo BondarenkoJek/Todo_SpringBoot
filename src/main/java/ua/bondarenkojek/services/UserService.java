@@ -1,8 +1,8 @@
 package ua.bondarenkojek.services;
 
-
 import ua.bondarenkojek.models.User;
 
+import java.util.List;
 
 public interface UserService {
 
@@ -15,5 +15,7 @@ public interface UserService {
     User findByName(String name);
 
     User findUserByNameAndPassword(String name, String password);
+
+    List<User> getAllUsers();
 
 }
